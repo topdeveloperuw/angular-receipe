@@ -30,9 +30,9 @@ app.use('/api/users', require('./controllers/users'));
 
 app.post('/api/auth', function(req, res) {
   User.findOne({email: req.body.email}, function(err, user) {
-    if (err || !user) return res.send({message: 'User not found'});
+    if (err || !user) return res.status(401).send({message: 'User not found'});
     user.authenticated(req.body.password, function(err, result) {
-      if (err || !result) return res.send({message: 'User not authenticated'});
+      if (err || !result) return res.status(401).send({message: 'User not authenticated'});
 
       var token = jwt.sign(user, secret);
       res.send({user: user, token: token});
