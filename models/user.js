@@ -3,8 +3,15 @@ var bcrypt = require('bcrypt');
 
 var UserSchema = mongoose.Schema({
   name: String,
-  email: String,
-  password: String
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  }
 });
 
 UserSchema.set('toJSON', {
@@ -19,13 +26,11 @@ UserSchema.set('toJSON', {
 });
 
 UserSchema.methods.authenticated = function(password, callback) {
-  bcrypt.compare(password, this.password, function(err, res) {
-    if (err) {
-      callback(err);
-    } else {
-      callback(null, res ? this : false);
-    }
-  });
+  var user = this;
+  var isAuthenticated = bcrypt.compareSync(password, user.password);
+  console.log(isAuthenticated);
+
+  callback(null, isAuthenticated ? user : false)
 };
 
 UserSchema.pre('save', function(next) {
