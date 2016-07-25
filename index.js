@@ -18,6 +18,7 @@ mongoose.connect('mongodb://localhost/recipes');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(require('morgan')('dev'));
 
 app.use('/api/recipes', require('./controllers/recipes'));
 app.use('/api/users', require('./controllers/users'));
@@ -56,4 +57,6 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.listen(process.env.PORT || 3000);
+var server = app.listen(process.env.PORT || 3000);
+
+module.exports = server;
