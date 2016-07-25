@@ -5,10 +5,9 @@ app.config([
   '$urlRouterProvider',
   '$locationProvider',
   function($stateProvider, $urlRouterProvider, $locationProvider) {
+    $urlRouterProvider.otherwise('/404');
 
-  $urlRouterProvider.otherwise('/404');
-
-  $stateProvider
+    $stateProvider
   .state('home', {
     url: '/',
     templateUrl: 'app/views/recipes.html',
@@ -39,5 +38,5 @@ app.config([
     templateUrl: 'app/views/404.html'
   });
 
-  $locationProvider.html5Mode(true);
-}]);
+    $locationProvider.html5Mode(true);
+  }]);

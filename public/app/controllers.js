@@ -9,17 +9,17 @@ angular.module('RecipeCtrls', ['RecipeServices'])
   });
 
   $scope.deleteRecipe = function(id, recipesIdx) {
-    Recipe.delete({id: id}, function success(data) {
+    Recipe.delete({ id: id }, function success(data) {
       $scope.recipes.splice(recipesIdx, 1);
     }, function error(data) {
       console.log(data);
     });
-  }
+  };
 }])
 .controller('ShowCtrl', ['$scope', '$stateParams', 'Recipe', function($scope, $stateParams, Recipe) {
   $scope.recipe = {};
 
-  Recipe.get({id: $stateParams.id}, function success(data) {
+  Recipe.get({ id: $stateParams.id }, function success(data) {
     $scope.recipe = data;
   }, function error(data) {
     console.log(data);
@@ -38,12 +38,12 @@ angular.module('RecipeCtrls', ['RecipeServices'])
     }, function error(data) {
       console.log(data);
     });
-  }
+  };
 }])
 .controller('NavCtrl', ['$scope', function($scope) {
   $scope.logout = function() {
-    //to implement
-  }
+    // to implement
+  };
 }])
 .controller('SignupCtrl', ['$scope', function($scope) {
   $scope.user = {
@@ -51,8 +51,8 @@ angular.module('RecipeCtrls', ['RecipeServices'])
     password: ''
   };
   $scope.userSignup = function() {
-    //to implement
-  }
+    // to implement
+  };
 }])
 .controller('LoginCtrl', ['$scope', function($scope) {
   $scope.user = {
@@ -60,6 +60,6 @@ angular.module('RecipeCtrls', ['RecipeServices'])
     password: ''
   };
   $scope.userLogin = function() {
-    //to implement
-  }
+    // to implement
+  };
 }]);

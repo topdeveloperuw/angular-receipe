@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var bcrypt   = require('bcrypt');
+var bcrypt = require('bcrypt');
 
 var UserSchema = mongoose.Schema({
   name: String,
@@ -26,7 +26,7 @@ UserSchema.methods.authenticated = function(password, callback) {
       callback(null, res ? this : false);
     }
   });
-}
+};
 
 UserSchema.pre('save', function(next) {
   if (!this.isModified('password')) {
