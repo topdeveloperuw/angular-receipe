@@ -24,9 +24,10 @@ app.use('/api/recipes', require('./controllers/recipes'));
 app.use('/api/users', require('./controllers/users'));
 
 // Replace the above routes with the following
-// app.use('/api/recipes', expressJWT({secret: secret}));
-// app.use('/api/users', expressJWT({secret: secret})
-// .unless({path: ['/api/users'], method: 'post'}));
+// app.use('/api/recipes', expressJWT({secret: secret}), require('./controllers/recipes'));
+// app.use('/api/users', expressJWT({secret: secret}).unless({
+//   path: [{ url: '/api/users', methods: ['POST'] }]
+// }), require('./controllers/users'));
 
 // this middleware will check if expressJWT did not authorize the user, and return a message
 app.use(function (err, req, res, next) {
@@ -42,15 +43,14 @@ app.post('/api/auth', function(req, res) {
     if (err || !user) return res.status(401).send({ message: 'User not found' });
 
     // attempt to authenticate a user
-    user.authenticated(req.body.password, function(err, result) {
-      // return 401 if invalid password or error
-      if (err || !result) return res.status(401).send({ message: 'User not authenticated' });
+    var isAuthenticated = user.authenticated(req.body.password);
+    // return 401 if invalid password or error
+    if (err || !isAuthenticated) return res.status(401).send({ message: 'User not authenticated' });
 
-      // sign the JWT with the user payload and secret, then return
-      var token = jwt.sign(user, secret);
+    // sign the JWT with the user payload and secret, then return
+    var token = jwt.sign(user.toJSON(), secret);
 
-      return res.send({ user: user, token: token });
-    });
+    return res.send({ user: user, token: token });
   });
 });
 

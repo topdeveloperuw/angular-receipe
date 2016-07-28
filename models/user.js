@@ -25,12 +25,10 @@ UserSchema.set('toJSON', {
   }
 });
 
-UserSchema.methods.authenticated = function(password, callback) {
+UserSchema.methods.authenticated = function(password) {
   var user = this;
   var isAuthenticated = bcrypt.compareSync(password, user.password);
-  console.log(isAuthenticated);
-
-  callback(null, isAuthenticated ? user : false)
+  return isAuthenticated ? user : false;
 };
 
 UserSchema.pre('save', function(next) {
